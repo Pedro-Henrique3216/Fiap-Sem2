@@ -1,0 +1,24 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.5.2.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TDSPJ.API", "TDSPJ.API.csproj", "{4794809B-8F89-14F1-659F-670CB93C42F2}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{4794809B-8F89-14F1-659F-670CB93C42F2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4794809B-8F89-14F1-659F-670CB93C42F2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4794809B-8F89-14F1-659F-670CB93C42F2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4794809B-8F89-14F1-659F-670CB93C42F2}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4ED8F5FD-F896-4DC7-B664-C3894F05D4D7}
+	EndGlobalSection
+EndGlobal

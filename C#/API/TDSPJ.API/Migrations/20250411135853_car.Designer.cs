@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Oracle.EntityFrameworkCore.Metadata;
 using TDSPJ.API.Infrastructure.Context;
@@ -11,9 +12,11 @@ using TDSPJ.API.Infrastructure.Context;
 namespace TDSPJ.API.Migrations
 {
     [DbContext(typeof(TDSPJContext))]
-    partial class TDSPJContextModelSnapshot : ModelSnapshot
+    [Migration("20250411135853_car")]
+    partial class car
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -33,15 +36,6 @@ namespace TDSPJ.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("NVARCHAR2(20)");
 
-                    b.Property<Guid>("CustomerId")
-                        .HasColumnType("RAW(16)");
-
-                    b.Property<DateTime>("DataCreated")
-                        .HasColumnType("TIMESTAMP(7)");
-
-                    b.Property<DateTime>("DateUpdated")
-                        .HasColumnType("TIMESTAMP(7)");
-
                     b.Property<string>("Motorization")
                         .IsRequired()
                         .HasMaxLength(20)
@@ -52,17 +46,7 @@ namespace TDSPJ.API.Migrations
                         .HasMaxLength(20)
                         .HasColumnType("NVARCHAR2(20)");
 
-                    b.Property<string>("UserCreated")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
-
-                    b.Property<string>("UserUpdated")
-                        .IsRequired()
-                        .HasColumnType("NVARCHAR2(2000)");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("CustomerId");
 
                     b.ToTable("Car", (string)null);
                 });
@@ -124,17 +108,6 @@ namespace TDSPJ.API.Migrations
                     b.HasKey("Email");
 
                     b.ToTable("Users", (string)null);
-                });
-
-            modelBuilder.Entity("TDSPJ.API.Domain.Entities.Car", b =>
-                {
-                    b.HasOne("TDSPJ.API.Domain.Entities.Customer", "Customer")
-                        .WithMany()
-                        .HasForeignKey("CustomerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Customer");
                 });
 #pragma warning restore 612, 618
         }

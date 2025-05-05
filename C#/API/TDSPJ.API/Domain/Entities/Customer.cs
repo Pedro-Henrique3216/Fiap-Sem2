@@ -10,6 +10,7 @@ namespace TDSPJ.API.Domain.Entities
         public string Document { get; private set; }
         public Gender Gender { get; private set; }
         public StatusEnum Status { get; private set; }
+        public HashSet<Car> Cars { get; private set; };
 
         public Customer() { } 
 

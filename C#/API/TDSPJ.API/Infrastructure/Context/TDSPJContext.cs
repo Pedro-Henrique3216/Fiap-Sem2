@@ -9,10 +9,13 @@ namespace TDSPJ.API.Infrastructure.Context
         public DbSet<Customer> Customers { get; set; }
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Car> Cars { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.ApplyConfiguration(new CustomerMapping());
             modelBuilder.ApplyConfiguration(new UserMapping());
+            modelBuilder.ApplyConfiguration(new CarMapping());
         }
 
     }

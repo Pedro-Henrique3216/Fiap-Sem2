@@ -71,8 +71,8 @@ namespace TDSPJ.API.Controllers
         [ProducesResponseType((int)HttpStatusCode.InternalServerError)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult<Customer>> PostCustomer(CustomerRequest customerRequest)
-        {   
-            var customer = new Customer(customerRequest.Name, customerRequest.Document, Domain.Enums.Gender.Male)
+        {
+            var customer = new Customer(customerRequest.Name, customerRequest.Document, Domain.Enums.Gender.Male);
             await _customerRepository.Save(customer);
 
             return CreatedAtAction("GetCustomer", new { id = customer.Id }, customer);

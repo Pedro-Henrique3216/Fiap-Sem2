@@ -26,8 +26,10 @@ public class OrderItems {
     private Double price;
 
     @ManyToOne
-    @MapsId("orderId")
-    @JoinColumn(name = "order_id")
+    @JoinColumns({
+        @JoinColumn(name = "order_id", referencedColumnName = "order_id", insertable = false, updatable = false),
+        @JoinColumn(name = "user_id", referencedColumnName = "user_id", insertable = false, updatable = false)
+    })
     private Order order;
 
     @Override

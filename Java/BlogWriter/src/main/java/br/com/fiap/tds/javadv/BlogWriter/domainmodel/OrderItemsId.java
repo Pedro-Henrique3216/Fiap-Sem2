@@ -1,5 +1,6 @@
 package br.com.fiap.tds.javadv.BlogWriter.domainmodel;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -16,8 +17,12 @@ import java.util.UUID;
 @NoArgsConstructor
 public class OrderItemsId {
 
-    private UUID orderId;
-    private UUID itemId;
+    @Column(name = "order_id")
+    private Long orderId;
+
+    @Column(name = "item_id")
+    private Long itemId;
+
 
     @Override
     public boolean equals(Object o) {

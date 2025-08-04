@@ -21,6 +21,18 @@ export default function App() {
   //Estado da foto capturada
   const [foto, setFoto] = useState(null)
 
+  //Estado para alternar entre a camera frontal e traseira
+  const [isFrontCamera, setIsFrontCamera] = useState(false)
+
+  //Estado para alternar o flash
+  const [flashOn, setFlashOn] = useState(false)
+
+  //Estado para configurar escaneamento
+  const [isScanning, setIsScanning] = useState(false)
+  
+
+  
+  
   //Solicitar o acesso da galeria na inicialização do app
   useEffect(() => {
     if (permissaoGaleria === null) return;
@@ -35,6 +47,14 @@ export default function App() {
       const dadoFoto = await cameraRef.current.takePictureAsync() //Captura a imagem atual
       setFoto(dadoFoto)
     }
+  }
+
+  const changeCamera = () => {
+    setIsFrontCamera(!isFrontCamera) //Alterna entre a camera frontal e traseira
+  }
+
+  const activateFlash = () => {
+    setFlashOn(!flashOn) //Alterna entre o flash ligado e desligado
   }
 
   //Função para salvar a foto
@@ -70,9 +90,19 @@ export default function App() {
           <CameraView
             ref={cameraRef}
             style={styles.camera}
-            facing="back"
+            facing={isFrontCamera ? "front" : "back"}
+            flash={flashOn ? "on" : "off"}
+            onBarcodeScanned={({ type, data }) => {
+              if (!isScanning) {
+                setIsScanning(true) //Desabilita o escaneamento
+                Alert.alert(`Tipo: ${type}`, `Dados: ${data}`, [
+                  { text: "OK", onPress: () => setIsScanning(false) } //Habilita o escaneamento novamente
+                ])
+              }
+            }}
           />
           <Button title='Tirar Foto' onPress={tirarFoto}/>
+          <Button title='alternar camera' onPress={changeCamera}/>
         </>
       ) : (
         <>

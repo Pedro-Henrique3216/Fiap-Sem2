@@ -1,9 +1,8 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
 import { auth } from "../config/FirebaseConfig";
 import { useRouter } from "expo-router";
 import { Alert } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { use } from "react";
 
 const router = useRouter()
 
@@ -33,4 +32,15 @@ export const userLogin = (email, password) =>  {
       const errorMessage = error.message;
       Alert.alert(`Erro ${errorCode}`, `Erro ao cadastrar: ${errorMessage}`);
     })
+}
+
+export const passwordReset = (email) => {
+  sendPasswordResetEmail(auth, email)
+  .then(()=> {
+    alert("Enviado e-mail de recuperação")
+  })
+  .catch((error) => {
+    console.log("Erro ao enviar email ", error.message);
+    alert("Erro ao enviar email. Verifique se o email esta correto")
+  })
 }

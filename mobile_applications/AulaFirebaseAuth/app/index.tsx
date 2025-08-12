@@ -2,13 +2,15 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { userLogin } from '../service/LoginService';
+import { passwordReset, userLogin } from '../service/LoginService';
+import Ionicons from '@expo/vector-icons/Ionicons';
 
 export default function LoginScreen() {
   // Estados para armazenar os valores digitados
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
+  const [hiddenPassword, sethiddenPassword] = useState(false)
 
   const router = useRouter();
 
@@ -22,6 +24,10 @@ export default function LoginScreen() {
     checkUser();
   }, []);
 
+  const showPassword = () => {
+      sethiddenPassword(!hiddenPassword)
+  }
+
   // Função para simular o envio do formulário
   const handleLogin = () => {
       if(email && senha){
@@ -31,6 +37,14 @@ export default function LoginScreen() {
         return
       }
   };
+
+  const forgotPassword = () => {
+    if(!email){
+      alert("Digite o email para recuperar a senha")
+      return
+    }
+    passwordReset(email)
+  }
 
   return (
     <View style={styles.container}>
@@ -49,21 +63,31 @@ export default function LoginScreen() {
       />
 
       {/* Campo Senha */}
-      <TextInput
-        style={styles.input}
+      <View style={styles.input}>
+        <TextInput
+        style={styles.textInput}
         placeholder="Senha"
         placeholderTextColor="#aaa"
-        secureTextEntry
+        secureTextEntry={hiddenPassword}
         value={senha}
         onChangeText={setSenha}
-      />
+        />
+        <Ionicons
+          onPress={showPassword}
+          name={hiddenPassword ? "eye-off" : "eye"}
+          size={32}
+          color="green"
+        />
+      </View>
+      
 
       {/* Botão */}
       <TouchableOpacity style={styles.botao} onPress={handleLogin}>
         <Text style={styles.textoBotao}>Login</Text>
       </TouchableOpacity>
-
+      <Text style={{marginTop:20,color:'white',marginLeft:30}} onPress={forgotPassword}>Forgot Password</Text>
       <Link href="CadastrarScreen" style={{marginTop:20,color:'white',marginLeft:150}}>Cadastre-se</Link>
+
     </View>
   );
 }
@@ -85,6 +109,9 @@ const styles = StyleSheet.create({
   },
   input: {
     backgroundColor: '#1E1E1E',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
     color: '#fff',
     borderRadius: 10,
     padding: 15,
@@ -92,6 +119,9 @@ const styles = StyleSheet.create({
     fontSize: 16,
     borderWidth: 1,
     borderColor: '#333',
+  },
+  textInput: {
+    color: "#fff",
   },
   botao: {
     backgroundColor: '#00B37E',

@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
+import { userLogin } from '../service/LoginService';
 
 export default function LoginScreen() {
   // Estados para armazenar os valores digitados
@@ -22,13 +23,13 @@ export default function LoginScreen() {
   }, []);
 
   // Função para simular o envio do formulário
-  const handleLogin= () => {
-    if ( !email || !senha) {
-      Alert.alert('Atenção', 'Preencha todos os campos!');
-      return;
-    }
-    Alert.alert('Sucesso ao logar', `Usuário logado com sucesso!`);
-    // Aqui você poderia fazer um fetch/axios para enviar ao backend
+  const handleLogin = () => {
+      if(email && senha){
+          userLogin(email, senha)
+      } else {
+        Alert.alert("Atenção, todos os campos deve ser preenchido")
+        return
+      }
   };
 
   return (

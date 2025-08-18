@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, deleteUser, updatePassword } from "firebase/auth";
 import { auth } from "../config/FirebaseConfig";
 import { useRouter } from "expo-router";
 import { Alert } from "react-native";
@@ -43,4 +43,42 @@ export const passwordReset = (email) => {
     console.log("Erro ao enviar email ", error.message);
     alert("Erro ao enviar email. Verifique se o email esta correto")
   })
+}
+
+export const deleteAccount = async () => {
+  try{
+  const user = auth.currentUser;
+    user.delete();
+    if (user) {
+      await deleteUser(user);
+      await AsyncStorage.removeItem("@user");
+      router.push("/");
+    } else {
+      Alert.alert("Erro", "Usuário não encontrado");
+    }
+  } catch (error) {
+    console.log("Erro ao deletar conta ", error.message);
+    Alert.alert("Erro", "Erro ao deletar conta. Tente novamente mais tarde.");
+  }
+  
+}
+
+export const changePassword = async (newPassword) => {
+  try{
+    const user = auth.currentUser;
+    if(user){
+      updatePassword(user, newPassword).then(() => {
+        Alert.alert("Sucesso", "Senha alterada com sucesso");
+    }).catch((error) => {
+      console.log("Erro ao alterar senha ", error.message);
+      Alert.alert("Erro", "Erro ao alterar senha. Tente novamente mais tarde.");
+    });
+    } else {
+      Alert.alert("Erro", "Usuário não encontrado");
+      return;
+    }
+  } catch (error) {
+      console.log("Erro ao alterar senha ", error.message);
+      Alert.alert("Erro", "Erro ao alterar senha. Tente novamente mais tarde.");
+    }
 }

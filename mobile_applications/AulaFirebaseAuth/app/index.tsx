@@ -75,7 +75,7 @@ export default function LoginScreen() {
         <Ionicons
           onPress={showPassword}
           name={hiddenPassword ? "eye-off" : "eye"}
-          size={32}
+          size={25}
           color="green"
         />
       </View>
@@ -114,7 +114,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
     color: '#fff',
     borderRadius: 10,
-    padding: 15,
+    paddingHorizontal: 10,
+    height: "6%",
     marginBottom: 15,
     fontSize: 16,
     borderWidth: 1,
@@ -122,6 +123,8 @@ const styles = StyleSheet.create({
   },
   textInput: {
     color: "#fff",
+    flex: 1,
+    fontSize: 16,
   },
   botao: {
     backgroundColor: '#00B37E',

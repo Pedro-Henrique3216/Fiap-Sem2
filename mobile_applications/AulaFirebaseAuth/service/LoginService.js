@@ -1,4 +1,4 @@
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, deleteUser, updatePassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, sendPasswordResetEmail, deleteUser, updatePassword, EmailAuthProvider, reauthenticateWithCredential } from "firebase/auth";
 import { auth } from "../config/FirebaseConfig";
 import { useRouter } from "expo-router";
 import { Alert } from "react-native";
@@ -63,12 +63,14 @@ export const deleteAccount = async () => {
   
 }
 
-export const changePassword = async (newPassword) => {
+export const changePassword = async (currentPassword, newPassword) => {
   try{
     const user = auth.currentUser;
     if(user){
+      reAuthenticate(user, currentPassword)
       updatePassword(user, newPassword).then(() => {
-        Alert.alert("Sucesso", "Senha alterada com sucesso");
+      Alert.alert("Sucesso", "Senha alterada com sucesso");
+      router.push("/HomeScreen")
     }).catch((error) => {
       console.log("Erro ao alterar senha ", error.message);
       Alert.alert("Erro", "Erro ao alterar senha. Tente novamente mais tarde.");
@@ -81,4 +83,9 @@ export const changePassword = async (newPassword) => {
       console.log("Erro ao alterar senha ", error.message);
       Alert.alert("Erro", "Erro ao alterar senha. Tente novamente mais tarde.");
     }
+}
+
+export const reAuthenticate = async (user, currentPassword) => {
+  const credential = EmailAuthProvider.credential(user.email, currentPassword)
+  await reauthenticateWithCredential(user, credential)
 }

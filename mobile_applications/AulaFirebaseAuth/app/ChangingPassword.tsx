@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { useRouter } from 'expo-router';
 import { changePassword } from '../service/LoginService';
 
 export default function ChangingPassword() {
@@ -27,7 +26,7 @@ export default function ChangingPassword() {
     }
 
     // Chame a função de alteração de senha aqui
-    changePassword(novaSenha);
+    changePassword(senhaAtual, novaSenha);
   };
 
   return (

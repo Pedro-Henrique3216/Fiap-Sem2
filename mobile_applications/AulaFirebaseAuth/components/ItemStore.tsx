@@ -1,20 +1,59 @@
-import { Pressable, StyleSheet, Text, View } from "react-native";
+import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
+import { useEffect, useState } from "react";
+import { updateItem, deleteItem } from "../service/DatabaseService";
 
+type Props = {
+    id: string;
+    title: string;
+    checked: boolean;
+}
 
-export default function ItemStore(){
-    return (
+export default function ItemStore({ id, title, checked }: Props){
+
+    const [isChecked, setIsChecked] = useState(checked)
+
+    const updateIsChecked = async () => {
+        updateItem(id, isChecked);
+    }
+
+    const deleteItens = async () => {
+        Alert.alert("Exclusão","Deseja realmente excluir?",[
+            {
+                text:'Cancelar',style:'cancel'
+            },
+            {   text:"Sim",
+                style:'destructive',
+                onPress: async()=>(
+                    await deleteItem(id)
+                )
+            }
+        ])     
+    }
+
+    useEffect(()=>{
+        updateIsChecked()
+    },[isChecked])
+
+     return (
         <View style={styles.container}>
-            <Pressable>
-                <AntDesign name="checkcircleo" color="black" size={24} />
+            <Pressable onPress={() => setIsChecked(!isChecked)}>
+                {isChecked ? (
+                    <AntDesign name="checkcircle" color='black' size={24} />
+                ):(
+                    <AntDesign name="checkcircleo" color='black' size={24} />
+                )
+                }
+
             </Pressable>
-            <Text style={styles.title} >Mouse Gamer</Text>
-            <Pressable>
-                <MaterialIcons name="delete" size={24} color="black"/>
+            <Text style={styles.title}>{title}</Text>
+            <Pressable onPress={deleteItens}>
+                <MaterialIcons name='delete' size={24} color='black' />
             </Pressable>
         </View>
     )
 }
+
 
 const styles = StyleSheet.create({
     container: {

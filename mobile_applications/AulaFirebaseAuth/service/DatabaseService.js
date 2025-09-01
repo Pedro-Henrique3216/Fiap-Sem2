@@ -33,7 +33,6 @@ export const deleteItem = async (id) => {
     try {
         await deleteDoc(doc(db, "items", id));
         Alert.alert("Sucesso", "Produto deletado com sucesso");
-        getItems();
     } catch (e) {
         console.log("Error deleting document: ", e);
     }

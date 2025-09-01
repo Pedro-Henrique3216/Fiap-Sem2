@@ -13,10 +13,6 @@ export default function ItemStore({ id, title, checked }: Props){
 
     const [isChecked, setIsChecked] = useState(checked)
 
-    const updateIsChecked = async () => {
-        updateItem(id, isChecked);
-    }
-
     const deleteItens = async () => {
         Alert.alert("Exclusão","Deseja realmente excluir?",[
             {
@@ -31,21 +27,23 @@ export default function ItemStore({ id, title, checked }: Props){
         ])     
     }
 
-    useEffect(()=>{
-        updateIsChecked()
-    },[isChecked])
+    const toggleCheck = async () => {
+        const newValue = !isChecked;
+        setIsChecked(newValue);
+        await updateItem(id, newValue);
+    };
+
 
      return (
         <View style={styles.container}>
-            <Pressable onPress={() => setIsChecked(!isChecked)}>
+            <Pressable onPress={toggleCheck}>
                 {isChecked ? (
                     <AntDesign name="checkcircle" color='black' size={24} />
-                ):(
+                ) : (
                     <AntDesign name="checkcircleo" color='black' size={24} />
-                )
-                }
-
+                )}
             </Pressable>
+
             <Text style={styles.title}>{title}</Text>
             <Pressable onPress={deleteItens}>
                 <MaterialIcons name='delete' size={24} color='black' />

@@ -4,6 +4,8 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
 import { passwordReset, userLogin } from '../service/LoginService';
 import Ionicons from '@expo/vector-icons/Ionicons';
+import { useTheme } from '../src/context/ThemeContext';
+import ThemeToggleButton from '../src/components/ThemeToggleButton';
 
 export default function LoginScreen() {
   // Estados para armazenar os valores digitados
@@ -11,6 +13,7 @@ export default function LoginScreen() {
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
   const [hiddenPassword, sethiddenPassword] = useState(false)
+  const { colors } = useTheme();
 
   const router = useRouter();
 
@@ -47,15 +50,15 @@ export default function LoginScreen() {
   }
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.titulo}>Realizar login</Text>
+    <View style={[styles.container, { backgroundColor: colors.background }]}>
+      <Text style={[styles.titulo, { color: colors.text }]}>Realizar login</Text>
 
 
       {/* Campo Email */}
       <TextInput
-        style={styles.input}
+        style={[styles.input, { backgroundColor: colors.textInputBackground, color: colors.textInputText }]}
         placeholder="E-mail"
-        placeholderTextColor="#aaa"
+        placeholderTextColor={colors.placeholderText}
         keyboardType="email-address"
         autoCapitalize="none"
         value={email}
@@ -63,11 +66,11 @@ export default function LoginScreen() {
       />
 
       {/* Campo Senha */}
-      <View style={styles.input}>
+      <View style={[styles.input, { backgroundColor: colors.textInputBackground }]}>
         <TextInput
-        style={styles.textInput}
+        style={[styles.textInput, { backgroundColor: colors.textInputBackground, color: colors.textInputText }]}
         placeholder="Senha"
-        placeholderTextColor="#aaa"
+        placeholderTextColor={colors.placeholderText}
         secureTextEntry={hiddenPassword}
         value={senha}
         onChangeText={setSenha}
@@ -82,12 +85,12 @@ export default function LoginScreen() {
       
 
       {/* Botão */}
-      <TouchableOpacity style={styles.botao} onPress={handleLogin}>
-        <Text style={styles.textoBotao}>Login</Text>
+      <TouchableOpacity style={[styles.botao, { backgroundColor: colors.button}]} onPress={handleLogin}>
+        <Text style={[styles.textoBotao, { color: colors.buttonText }]}>Login</Text>
       </TouchableOpacity>
-      <Text style={{marginTop:20,color:'white',marginLeft:30}} onPress={forgotPassword}>Forgot Password</Text>
-      <Link href="CadastrarScreen" style={{marginTop:20,color:'white',marginLeft:150}}>Cadastre-se</Link>
-
+      <Text style={{marginTop:20,color:colors.text}} onPress={forgotPassword}>Forgot Password</Text>
+      <Link href="CadastrarScreen" style={{marginTop:20,color:colors.text}}>Cadastre-se</Link>
+      <ThemeToggleButton />
     </View>
   );
 }

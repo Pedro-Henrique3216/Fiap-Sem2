@@ -6,18 +6,24 @@ import { deleteAccount } from "../service/LoginService";
 import ItemStore from "../components/ItemStore";
 import { useEffect, useState } from "react";
 import { addItem, getItems } from "../service/DatabaseService";
+import ThemeToggleButton from "../src/components/ThemeToggleButton";
+import { useTheme } from "../src/context/ThemeContext";
+
+interface Item {
+    id: string;
+    title: string;
+    isChecked: boolean;
+}
 
 export default function HomeScreen() {
 
     const [title, setTitle] = useState("")
-    interface Item {
-        id: string;
-        title: string;
-        isChecked: boolean;
-    }
     const [listaItems, setListaItems] = useState<Item[]>([])
-
+    const { colors } = useTheme();
     const router = useRouter();
+    
+
+    
     const logoff = async () => {
         await AsyncStorage.removeItem("@user");
         router.push("/");
@@ -46,6 +52,7 @@ export default function HomeScreen() {
     const saveItem = async () => {
         if (!title) return;
         await addItem(title, setTitle);
+        findItems();
     }
 
     const findItems = async () => {
@@ -57,14 +64,14 @@ export default function HomeScreen() {
     }, [])
 
      return (
-        <SafeAreaView style={styles.container}>
+            <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
             <KeyboardAvoidingView //é componente que ajusta automaticamente o layout
                 style={styles.container}
                 behavior={Platform.OS==='ios'?'padding':'height'}//No ios é utilizado padding, e no android o height
                 keyboardVerticalOffset={20}//Descola o conteúdo na vertical em 20 pixel
-            >                
-            
-            <Text>Seja bem-vindo a Tela Inicial da Aplicação</Text>
+            >
+
+            <Text style={[styles.text, { color: colors.text }]}>Seja bem-vindo a Tela Inicial da Aplicação</Text>
             <Button title="Sair da Conta" onPress={logoff} />
             <Button title="Exluir conta" color='red' onPress={confirmDeleteAccount} />
             <Button title="Alterar Senha" onPress={() => router.push("/AlterarSenha")} />
@@ -86,8 +93,9 @@ export default function HomeScreen() {
 
             <TextInput
                 placeholder="Digite o nome do produto"
-                style={styles.input}
+                style={[styles.input, { backgroundColor: colors.textInputBackground, color: colors.textInputText }]}
                 value={title}
+                placeholderTextColor={colors.placeholderText}
                 onChangeText={(value) => setTitle(value)}
                 onSubmitEditing={saveItem}
             />
@@ -100,13 +108,19 @@ const styles = StyleSheet.create({
     container: {
         flex: 1
     },
+    text: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        marginVertical: 10
+    },
     input: {
-        backgroundColor: 'lightgray',
         padding: 10,
         fontSize: 15,
         width: '90%',
         alignSelf: 'center',
         borderRadius: 10,
-        marginTop: 'auto'
+        marginTop: 'auto',
+        borderWidth: 1,
+        borderColor: 'gray'
     }
 })

@@ -1,6 +1,6 @@
 import { Alert, Pressable, StyleSheet, Text, View } from "react-native";
 import { AntDesign, MaterialIcons } from "@expo/vector-icons"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { updateItem, deleteItem } from "../service/DatabaseService";
 
 type Props = {

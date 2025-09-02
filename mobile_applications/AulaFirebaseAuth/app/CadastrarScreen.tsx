@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { createUser } from '../service/LoginService';
+import { createUser } from '../src/service/LoginService';
 import { useRouter } from 'expo-router';
 
 export default function CadastroScreen() {

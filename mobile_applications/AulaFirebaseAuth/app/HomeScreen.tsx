@@ -2,11 +2,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useRouter } from "expo-router";
 import { ActivityIndicator, Alert, Button, FlatList, KeyboardAvoidingView, Platform, StyleSheet, Text, TextInput, TouchableOpacity } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { deleteAccount } from "../service/LoginService";
-import ItemStore from "../components/ItemStore";
+import { deleteAccount } from "../src/service/LoginService";
+import ItemStore from "../src/components/ItemStore";
 import { useEffect, useState } from "react";
-import { addItem, getItems } from "../service/DatabaseService";
-import ThemeToggleButton from "../src/components/ThemeToggleButton";
+import { addItem, getItems } from "../src/service/DatabaseService";
 import { useTheme } from "../src/context/ThemeContext";
 
 interface Item {

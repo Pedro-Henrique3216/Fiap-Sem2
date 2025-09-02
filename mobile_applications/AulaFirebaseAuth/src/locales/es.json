@@ -1,0 +1,9 @@
+{
+    "welcome": "Bienvenido a la aplicación",
+    "logout": "Cerrar sesión",
+    "deleteAccount": "Eliminar cuenta",
+    "confirmDelete": "¿Estás seguro de que deseas eliminar?",
+    "cancel": "Cancelar",
+    "delete": "Eliminar",
+    "login": "Iniciar sesión"
+}

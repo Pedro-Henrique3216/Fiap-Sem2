@@ -10,7 +10,7 @@ export default function ThemeToggleButton() {
                 Switch to {theme === "light" ? "dark" : "light"} mode
             </Text>
         </TouchableOpacity>
-    );
+    );  
 }
 
 const styles = StyleSheet.create({

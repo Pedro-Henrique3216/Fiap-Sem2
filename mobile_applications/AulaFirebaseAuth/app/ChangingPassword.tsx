@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { changePassword } from '../service/LoginService';
+import { changePassword } from '../src/service/LoginService';
 
 export default function ChangingPassword() {
   // Estados para armazenar os valores digitados

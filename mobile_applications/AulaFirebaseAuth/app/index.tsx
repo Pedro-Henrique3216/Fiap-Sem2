@@ -2,19 +2,22 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { Link, useRouter } from 'expo-router';
 import React, { useState, useEffect } from 'react';
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from 'react-native';
-import { passwordReset, userLogin } from '../service/LoginService';
+import { passwordReset, userLogin } from '../src/service/LoginService';
 import Ionicons from '@expo/vector-icons/Ionicons';
 import { useTheme } from '../src/context/ThemeContext';
 import ThemeToggleButton from '../src/components/ThemeToggleButton';
+import { useTranslation } from 'react-i18next';
+import LenguageToggleButton from '../src/components/LenguageToggleButton';
 
 export default function LoginScreen() {
   // Estados para armazenar os valores digitados
 
   const [email, setEmail] = useState('');
   const [senha, setSenha] = useState('');
-  const [hiddenPassword, sethiddenPassword] = useState(false)
+  const [hiddenPassword, sethiddenPassword] = useState(true)
   const { colors } = useTheme();
-
+  //Hook do i18next, que fornece a função t para buscar e traduzir para o idioma atual
+  const { t } = useTranslation()
   const router = useRouter();
 
   useEffect(() => {
@@ -28,10 +31,9 @@ export default function LoginScreen() {
   }, []);
 
   const showPassword = () => {
-      sethiddenPassword(!hiddenPassword)
+    sethiddenPassword(!hiddenPassword)
   }
 
-  // Função para simular o envio do formulário
   const handleLogin = () => {
       if(email && senha){
           userLogin(email, senha)
@@ -51,7 +53,7 @@ export default function LoginScreen() {
 
   return (
     <View style={[styles.container, { backgroundColor: colors.background }]}>
-      <Text style={[styles.titulo, { color: colors.text }]}>Realizar login</Text>
+      <Text style={[styles.titulo, { color: colors.text }]}>{t("login")}</Text>
 
 
       {/* Campo Email */}
@@ -91,6 +93,12 @@ export default function LoginScreen() {
       <Text style={{marginTop:20,color:colors.text}} onPress={forgotPassword}>Forgot Password</Text>
       <Link href="CadastrarScreen" style={{marginTop:20,color:colors.text}}>Cadastre-se</Link>
       <ThemeToggleButton />
+      <View>
+          <LenguageToggleButton lang="pt"/>
+          <LenguageToggleButton lang="en"/>
+          <LenguageToggleButton lang="es"/>
+      </View>
+      
     </View>
   );
 }

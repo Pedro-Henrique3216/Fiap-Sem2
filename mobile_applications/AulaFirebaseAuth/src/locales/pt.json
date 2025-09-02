@@ -1,0 +1,9 @@
+{
+    "welcome": "Seja bem-bindo à aplicação",
+    "logout": "Sair da conta",
+    "deleteAccount": "Excluir Conta",
+    "confirmDelete": "Tem certeza que deseaja excluir",
+    "cancel": "Cancelar",
+    "delete": "Excluir",
+    "login": "Realizar Login"
+}

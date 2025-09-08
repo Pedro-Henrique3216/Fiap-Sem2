@@ -4,9 +4,22 @@ import { ActivityIndicator, Alert, Button, FlatList, KeyboardAvoidingView, Platf
 import { SafeAreaView } from "react-native-safe-area-context";
 import { deleteAccount } from "../src/service/LoginService";
 import ItemStore from "../src/components/ItemStore";
-import { useEffect, useState } from "react";
+import { use, useEffect, useState } from "react";
 import { addItem, getItems } from "../src/service/DatabaseService";
 import { useTheme } from "../src/context/ThemeContext";
+import * as Notifications from 'expo-notifications';
+import * as Device from 'expo-device';
+
+
+//Confguração para receber notificações em primeiro plano
+Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+        shouldPlaySound: true, //som da notificação
+        shouldSetBadge: false, //Não alters o badge do app
+        shouldShowBanner: true, //Exibir banner
+        shouldShowList: true //Exibir histórico de notificações
+    })
+});
 
 interface Item {
     id: string;
@@ -20,8 +33,6 @@ export default function HomeScreen() {
     const [listaItems, setListaItems] = useState<Item[]>([])
     const { colors } = useTheme();
     const router = useRouter();
-    
-
     
     const logoff = async () => {
         await AsyncStorage.removeItem("@user");
@@ -58,12 +69,49 @@ export default function HomeScreen() {
         await getItems(setListaItems);
     }
 
+    const scheduleNotification = async () => {
+        await Notifications.scheduleNotificationAsync({
+            content: {
+                title: "Promoção Especial!",
+                body: "Aproveite nossa promoção exclusiva!"
+            },
+            trigger: {
+                type:  Notifications.SchedulableTriggerInputTypes.TIME_INTERVAL,
+                seconds: 2,
+                repeats: false
+            }
+        });
+    }
+
     useEffect(() => {
         findItems()
     }, [])
 
-     return (
-            <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
+
+    useEffect(() => {
+        const checkNotificationPermissions = async () => {
+            const { status } = await Notifications.getPermissionsAsync();
+                if (status !== 'granted') {
+                    console.log("Permissão para notificações não concedida. Solicitando permissão...");
+                }
+                //Solicitar permissão para receber notificações
+            Notifications.requestPermissionsAsync()
+                .then((response) => {
+                    if (response.granted) {
+                        console.log("Permissão para notificações concedida!");
+                    } else {
+                        console.log("Permissão para notificações negada!");
+                    }
+                })
+                .catch((error) => {
+                    console.error("Erro ao solicitar permissão para notificações:", error);
+                });
+        }
+        checkNotificationPermissions();
+    }, []);
+
+    return (
+        <SafeAreaView style={[styles.container, { backgroundColor: colors.background }]}>
             <KeyboardAvoidingView //é componente que ajusta automaticamente o layout
                 style={styles.container}
                 behavior={Platform.OS==='ios'?'padding':'height'}//No ios é utilizado padding, e no android o height
@@ -74,6 +122,7 @@ export default function HomeScreen() {
             <Button title="Sair da Conta" onPress={logoff} />
             <Button title="Exluir conta" color='red' onPress={confirmDeleteAccount} />
             <Button title="Alterar Senha" onPress={() => router.push("/AlterarSenha")} />
+            <Button title="Agendar Notificação" onPress={scheduleNotification} />
 
             {listaItems.length <= 0 ? (
                 <ActivityIndicator />

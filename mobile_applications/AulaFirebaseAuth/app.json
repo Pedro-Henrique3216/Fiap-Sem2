@@ -4,24 +4,35 @@
     "slug": "AulaAuth",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/icon.png",
+    "icon": "./assets/screen_12996076.png",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
     "scheme": "AulaAuth",
+    "notification": {
+      "icon": "./assets/active_1827264.png",
+      "color": "#080808"
+    },
     "splash": {
-      "image": "./assets/splash-icon.png",
+      "image": "./assets/screen_12996076.png",
       "resizeMode": "contain",
       "backgroundColor": "#ffffff"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.pedro.aulaauth",
+      "infoPlist": {
+        "UIBackgroundModes": [
+          "remote-notification"
+        ]
+      }
     },
     "android": {
       "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
+        "foregroundImage": "./assets/screen_12996076.png",
         "backgroundColor": "#ffffff"
       },
-      "edgeToEdgeEnabled": true
+      "edgeToEdgeEnabled": true,
+      "useNextNotificationsApi": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
